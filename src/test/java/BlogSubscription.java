@@ -3,6 +3,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BlogSubscription{
     protected WebDriver driver = new ChromeDriver();
@@ -89,6 +93,21 @@ public class BlogSubscription{
         emailField.sendKeys("TestingEmail@gmail.com");
 
         driver.findElement(subscriptionButtonLocator).click();
+
+        WebDriverWait wait = new WebDriverWait(driver , Duration.ofSeconds(2));
+        WebElement thankYouElement = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        thankYouFormLocator
+                )
+        );
+
+        String thankYouMessage = thankYouElement.getText();
+
+        Assert.assertEquals(
+                "Thanks for signing up! Check your inbox for your Welcome package!",
+                thankYouMessage);
+
+        System.out.println(thankYouMessage);
     }
 
     @Test
@@ -110,5 +129,4 @@ public class BlogSubscription{
     public void quitBrowser(){
         driver.quit();
     }
-
 }
