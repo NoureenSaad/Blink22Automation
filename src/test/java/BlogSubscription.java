@@ -91,6 +91,21 @@ public class BlogSubscription{
         driver.findElement(subscriptionButtonLocator).click();
     }
 
+    @Test
+    public void submitFormWithInvalidEmail(){
+        WebElement nameField = driver.findElement(nameFieldLocator);
+        nameField.sendKeys("Noureen Saad");
+
+        WebElement emailField = driver.findElement(emailFieldLocator);
+        emailField.sendKeys("TestingInvalidEmail.email");
+
+        driver.findElement(subscriptionButtonLocator).click();
+
+        String emailError = driver.findElement(emailErrorLocator).getText();
+
+        System.out.println("Email field error: " + emailError);
+    }
+
     @After
     public void quitBrowser(){
         driver.quit();
